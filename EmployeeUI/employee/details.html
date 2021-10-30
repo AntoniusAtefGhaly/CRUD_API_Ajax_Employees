@@ -1,0 +1,57 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="nofollow" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
+
+
+
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <div>
+        <div  class="card border-primary mb-6" style="max-width: 50rem;">
+            <div class="card-header"><h2 id="name_header"></h2></div>
+            <div class="card-body">
+                <h2> <strong>ID :</strong><span id="id"></p></h2> 
+                <h2>  <strong>Name : </strong><span id="name"></p></h2>
+                <h2> <strong>Title : </strong><span id="title"></p></h2>
+                <h2> <strong>birth Date : </strong><span id="birthDate"></p></h2>
+                <h2> <strong>hiring Date : </strong><span id="hiringDate"></p></h2>  
+                <h2> <strong>department: </strong><span id="department"></p></h2>                    
+            </div>
+          </div>
+        </div>
+</div>
+
+<script>  
+  $(document).ready(function () {  
+    var parameters = location.search.substring(1).split("&");
+   var temp = parameters[0].split("=");
+    id = unescape(temp[1]);
+      $.ajax({  
+          type: "GET",  
+          url: "https://localhost:44322/api/Employee/"+id,  
+          contentType: "application/json; charset=utf-8",  
+          dataType: "json",  
+          success: function (data) {  
+              $("#DIV").html('');   
+              var DIV = '';  
+              document.getElementById("name_header").innerHTML = data.name;
+              document.getElementById("name").innerHTML = data.name;
+              document.getElementById("id").innerHTML = data.id;
+              document.getElementById("title").innerHTML = data.title;
+              document.getElementById("birthDate").innerHTML = data.birthDate.split("T")[0];
+              document.getElementById("hiringDate").innerHTML = data.hiringDate.split("T")[0];
+              document.getElementById("department").innerHTML = data.department;
+              console.log(data);  
+          },  
+          failure: function (data) {  
+              alert(data.responseText);  
+          }, 
+          error: function (data) {  
+              alert(data.responseText);  
+          } 
+      });         
+  });  
+</script> 

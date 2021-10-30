@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="nofollow"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+
+<div class="container">
+  <br>
+  <h1>Add department</h1>
+  <br>
+  <form id="formid">
+    <div class="form-group" hidden>
+      <label>ID</label>
+      <input class="form-control" type="text" id="id" placeholder="id"><br>
+    </div>
+
+    <div class="form-group">
+      <label> Name :</label>
+      <input class="form-control" required type="text" id="name" placeholder="Name"><br>
+    </div>
+    <span id="name-val"  style="color: red;display: none;"> required</span>
+
+    <div class="form-group">
+      <input type="button" type="submit" class="btn btn-success" value="Add New Department" onclick="add()">
+    </div>
+  </form>
+</div>
+<script>
+
+function add() {  
+  valid=1;
+    var name = $('#name').val();  
+    if(name==""){
+      document.getElementById("name-val").style.display="block";
+     valid=0;
+    }
+    else{
+      document.getElementById("name-val").style.display="none";
+    }
+    
+    if(valid==1){
+    $.ajax({  
+        async: true,  
+        url:"https://localhost:44322/api/Department/",  
+        method: "POST",  
+        data: JSON.stringify({  
+            '__metadata': {  
+                'type': 'SP.Data.EmployeeListItem'  
+            },  
+            'id':0,
+            'name': name,    
+        }),  
+        headers: {  
+            "accept": "application/json;odata=verbose",  
+            "content-type": "application/json;odata=verbose",  
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()  
+        },  
+        success: function(data) { 
+          console.log(data)
+          if(data==true)
+          window.location.href = "index.html";
+          else
+          alert("failed added") 
+          
+        },  
+        error: function(error) {  
+          alert("add department failed ") 
+            console.log(JSON.stringify(error));  
+        }  
+  
+    })  
+  }
+} 
+</script>

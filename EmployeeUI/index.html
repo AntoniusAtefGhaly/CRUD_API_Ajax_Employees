@@ -1,0 +1,105 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="nofollow" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link " href="index.html">Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Employees</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="department/index.html">departments</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container">
+  <br>
+  <h2>Employees</h2>
+  <a href="employee/creat.html">
+    <input type="button" class="btn btn-success" value="ADD new Employee">
+  </a>
+  <br>
+  <br>
+  <table class="table table-hover table-border">
+    <thead id="Table">
+      <tr class="border table-primary">
+        <th scope="col">Id</th>
+        <th scope="col">title</th>
+        <th scope="col">NAME</th>
+        <th scope="col">birthDate</th>
+        <th scope="col">department</th>
+        <th scope="col">hiringDate</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<script>  
+  $(document).ready(function () {  
+      $.ajax({  
+          type: "GET",  
+          url: "https://localhost:44322/api/Employee",  
+          contentType: "application/json; charset=utf-8",  
+          dataType: "json",  
+          success: function (data) {  
+            console.log(data);
+              //alert(JSON.stringify(data));                  
+              $("#DIV").html('');   
+              var DIV = '';  
+              $.each(data, function (i, item) {  
+                  var rows =" <tr class="+"table-light+> <td>"+item.id+"</td><td>"+item.title+"</td> <td>"+item.name+"</td> <td>"+
+               item.birthDate.split("T")[0]+"</td> <td>"+item.department+"</td> <td>"+  item.hiringDate.split("T")[0]+
+                "</td> <td><a class='btn btn-success btn-sm' href='employee/details.html?id="+item.id+"' onclick=''>Details</a>"+
+                  "</td> <td><a class='btn btn-info btn-sm' href='employee/edit.html?id="+item.id+"' onclick=''>Edit</a>"+
+                    "</td> <td><a class='btn btn-danger btn-sm' onclick='delete_emp(" + item.id + ")'>Delete</a>";
+             
+                  $('#Table').append(rows);  
+              });  
+              console.log(data);  
+          }, 
+          failure: function (data) {  
+              alert(data.responseText);  
+          }, 
+          error: function (data) {  
+              alert(data.responseText);  
+          } 
+      });         
+  });  
+  function delete_emp(id){
+$.ajax({  
+          type: "DELETE",  
+          url: "https://localhost:44322/api/Employee/"+id,  
+          contentType: "application/json; charset=utf-8",  
+          dataType: "json",  
+          success: function (data) { 
+          window.location.href = "index.html";
+          },  
+          failure: function (data) {  
+              alert(data.responseText);  
+          }, 
+          error: function (data) {  
+              alert(data.responseText);  
+          }  
+      });         
+  }
+</script> 
